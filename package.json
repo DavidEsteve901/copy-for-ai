@@ -11,14 +11,28 @@
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
+"contributes": {
+  "commands": [
+    {
+      "command": "copy-for-ai.makeTxt",
+      "title": "Generar .txt para IA"
+    }
+  ],
+  "menus": {
+    "explorer/context": [
       {
-        "command": "copy-for-ai.helloWorld",
-        "title": "Hello World"
+        "command": "copy-for-ai.makeTxt",
+        "group": "navigation"
+      }
+    ],
+    "editor/context": [
+      {
+        "command": "copy-for-ai.makeTxt",
+        "group": "navigation"
       }
     ]
-  },
+  }
+},
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",

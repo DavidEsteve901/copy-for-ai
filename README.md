@@ -1,71 +1,75 @@
-# copy-for-ai README
+📋 Copy for AI - VS Code Extension
+Esta extensión permite copiar el contenido de cualquier archivo directamente al portapapeles de Windows como un archivo físico adjunto.
 
-This is the README for your extension "copy-for-ai". After writing up a brief description, we recommend including the following sections.
+🚀 ¿Por qué usar esta extensión?
+Cuando copias y pegas bloques de código gigantes en chats de IA (ChatGPT, Claude), el navegador se ralentiza o se bloquea debido al renderizado del texto. Esta extensión soluciona el problema:
 
-## Features
+Crea un archivo .txt temporal en tu sistema.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Lo inyecta en el portapapeles como una referencia de archivo.
 
-For example if there is an image subfolder under your extension project workspace:
+Al hacer Ctrl + V en el chat, la IA lo recibe como un adjunto, evitando el lag y ahorrando recursos.
 
-\!\[feature X\]\(images/feature-x.png\)
+🛠️ Instalación (Uso personal)
+Para instalarla en cualquier ordenador sin pasar por el Marketplace:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Generar el archivo .vsix: En la carpeta del proyecto, ejecuta:
 
-## Requirements
+Bash
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+npx @vscode/vsce package
+Instalar en VS Code:
 
-## Extension Settings
+Abre VS Code.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Ve a la pestaña de Extensiones (Ctrl + Shift + X).
 
-For example:
+Haz clic en los tres puntos (...) en la esquina superior derecha.
 
-This extension contributes the following settings:
+Selecciona Install from VSIX....
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Elige el archivo .vsix generado.
 
-## Known Issues
+💻 Desarrollo y Mejora Futura
+Si quieres añadir nuevas funciones o modificar el comportamiento, estos son los comandos esenciales:
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Comandos de Terminal
+npm install: Instala las dependencias necesarias.
 
-## Release Notes
+npm run watch: Compila automáticamente los cambios de TypeScript a JavaScript en tiempo real. (Mantén esto abierto mientras programas).
 
-Users appreciate release notes as you update your extension.
+npm run compile: Compila el proyecto una sola vez.
 
-### 1.0.0
+npx @vscode/vsce package: Empaqueta la extensión en un archivo instalable .vsix.
 
-Initial release of ...
+Cómo probar cambios
+Abre el proyecto en VS Code.
 
-### 1.0.1
+Pulsa F5. Se abrirá una ventana nueva llamada [Extension Development Host].
 
-Fixed issue #.
+Prueba la extensión en esa ventana.
 
-### 1.1.0
+Si haces cambios en el código, pulsa el botón Restart (flecha circular verde) en la barra flotante de depuración para aplicar los cambios al instante.
 
-Added features X, Y, and Z.
+🔍 Detalles Técnicos (Para Obsidian)
+El "Truco" del Portapapeles
+La extensión no usa la API estándar de VS Code para el portapapeles porque esta solo permite texto plano. En su lugar, utiliza un script de PowerShell con .NET:
 
----
+TypeScript
 
-## Following extension guidelines
+Add-Type -AssemblyName System.Windows.Forms;
+$fileList = New-Object System.Collections.Specialized.StringCollection;
+$fileList.Add('RUTA_AL_ARCHIVO');
+[System.Windows.Forms.Clipboard]::SetFileDropList($fileList);
+Ubicación Temporal: Los archivos se guardan en os.tmpdir() (la carpeta Temp de Windows), por lo que no ensucian tus proyectos actuales.
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+Compatibilidad: Diseñado para Windows 10/11.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+📝 Roadmap / Ideas para mejorar
+[ ] Añadir opción para copiar múltiples archivos seleccionados a la vez.
 
-## Working with Markdown
+[ ] Crear un comando para limpiar la carpeta temporal manualmente.
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+[ ] Añadir soporte para Linux (xclip) y macOS (pbcopy).
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Creado por David | Optimizando el flujo de trabajo con IA 🤖✨
